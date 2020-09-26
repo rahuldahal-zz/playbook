@@ -1,0 +1,18 @@
+.Header {
+  background-color: var(--primaryTextColor);
+  color: #f4f4f4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.nav {
+  display: flex;
+
+  &__listItem {
+    list-style: none;
+    display: inline-block;
+    margin-left: 1em;
+  }
+}
