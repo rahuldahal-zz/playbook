@@ -2,11 +2,11 @@
   "name": "PlayBook",
   "version": "0.2.0",
   "description": "A video sharing platform",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "client-install": "cd client && npm install",
-    "start": "node app.js",
-    "server": "nodemon app.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
