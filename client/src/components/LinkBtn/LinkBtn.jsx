@@ -1,6 +1,6 @@
 import React from "react";
 
-const LinkBtn = (props) => {
+const LinkBtn = function (props) {
   return (
     <a
       href={props.to}

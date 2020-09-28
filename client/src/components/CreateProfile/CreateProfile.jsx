@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LinkBtn from "../LinkBtn/LinkBtn";
+import { Link } from "react-router-dom";
 
 class CreateProfile extends Component {
   state = {};
@@ -7,7 +7,9 @@ class CreateProfile extends Component {
     return (
       <section>
         <h1>Will create profile now...</h1>
-        <LinkBtn to="/" text="Back to Home" />
+        <Link to="/" className="btn">
+          Home
+        </Link>
       </section>
     );
   }
