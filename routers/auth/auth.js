@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
+const proxy = require("../../utils/proxyRedirect");
 
 router.get(
   "/google",
@@ -17,14 +18,14 @@ router.get("/email", (req, res) => {
 // handle the exchange of "code" from the provider to get the "actual" user details
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.send("<h1>Authenticated via Google</h1>");
+  res.redirect(proxy("/create-profile"));
 });
 
 router.get(
   "/facebook/redirect",
   passport.authenticate("facebook"),
   (req, res) => {
-    res.send("<h1>Authenticated via Facebook</h1>");
+    res.redirect(proxy("/create-profile"));
   }
 );
 
