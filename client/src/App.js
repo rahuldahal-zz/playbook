@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import "extended-normalize.css";
-import "./App.css";
+import "./App.scss";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import CreateProfile from "./components/CreateProfile/CreateProfile";

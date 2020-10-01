@@ -1,0 +1,45 @@
+@font-face {
+  font-family: sanchez;
+  src: url(./fonts/Sanchez-Regular.ttf);
+}
+
+@font-face {
+  font-family: "league spartan";
+  src: url(./fonts/LeagueSpartan-Bold.otf);
+}
+
+.App {
+  text-align: center;
+  font-family: "sanchez", var(--bodyFont);
+}
+
+:root {
+  --primaryTextColor: #000a1f;
+  --brandColor: #ffdd2e;
+}
+
+body {
+  background-color: #f4f4f4;
+}
+
+h1,
+h2 {
+  font-family: "league spartan", var(--headingFont);
+}
+
+h3,
+h4,
+h4,
+h6 {
+  font-family: "sanchez", var(--bodyFont);
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--brandColor);
+  color: var(--primaryTextColor);
+  text-decoration: none;
+  padding: 0.75em 1.5em;
+  border-radius: 0.3em;
+  margin: 0 1em;
+}
