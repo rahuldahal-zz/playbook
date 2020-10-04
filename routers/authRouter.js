@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
-const proxy = require("../../utils/proxyRedirect");
+const proxy = require("../utils/proxyRedirect");
 
 router.get(
   "/google",

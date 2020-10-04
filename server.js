@@ -1,8 +1,7 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const passport = require("passport");
 const helmet = require("helmet");
-const passportController = require("./controllers/passport");
+const passportController = require("./controllers/passportController");
 const dotenv = require("dotenv");
 dotenv.config();
 const path = require("path");
@@ -15,11 +14,22 @@ app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const authRouter = require("./routers/auth/auth");
+app.use("/api/auth", require("./routers/authRouter"));
+app.use("/api/user", require("./routers/userRouter"));
 
-app.use("/api/auth", authRouter);
-app.use("/*", (req, res) =>
-  res.status(404).json({ message: "The requested route is not found!" })
-);
+// serve the build>index.html in production
+
+if (process.env.NODE_ENV === "production") {
+  // Create-React-App builds the static files in "build" folder
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+} else {
+  app.use("/*", (req, res) =>
+    res.status(404).json({ message: "The requested route is not found!" })
+  );
+}
 
 module.exports = app;
