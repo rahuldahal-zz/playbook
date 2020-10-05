@@ -14,7 +14,9 @@
   "author": "Rahul Dahal",
   "license": "unlicensed",
   "devDependencies": {
-    "nodemon": "^1.14.6"
+    "jest": "^26.4.2",
+    "nodemon": "^1.14.6",
+    "supertest": "^5.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
