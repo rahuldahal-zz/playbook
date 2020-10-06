@@ -9,11 +9,15 @@ const path = require("path");
 const app = express();
 
 app.use(helmet());
+app.use(express.json());
 
 // initialize passportJS and use express-session
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/", (req, res) =>
+  res.status(200).json({ message: "The server is working..." })
+);
 app.use("/api/auth", require("./routers/authRouter"));
 app.use("/api/user", require("./routers/userRouter"));
 

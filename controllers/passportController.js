@@ -1,7 +1,11 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const User = require("../models/User");
+const LocalStrategy = require("passport-local").Strategy;
+const UserModel = require("../models/User");
+const { User, OAuthLogin, CustomLogin } = UserModel;
+const bcryptjs = require("bcryptjs");
+const salt = bcryptjs.genSaltSync(10);
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -29,10 +33,11 @@ passport.use(
 
       // check if user already exists
 
-      User.findOne({ OAuthID: userDetails.sub })
+      OAuthLogin.findOne({ OAuthID: userDetails.sub })
         .then((user) => {
           if (!user) {
             return createUser(
+              "OAuthLogin",
               {
                 OAuthID: userDetails.sub,
                 firstName: userDetails.given_name,
@@ -74,10 +79,11 @@ passport.use(
 
       const userDetails = profile._json;
 
-      User.findOne({ OAuthID: userDetails.id })
+      OAuthLogin.findOne({ OAuthID: userDetails.id })
         .then((user) => {
           if (!user) {
             return createUser(
+              "OAuthLogin",
               {
                 OAuthID: userDetails.id,
                 firstName: userDetails.first_name,
@@ -99,11 +105,38 @@ passport.use(
   )
 );
 
-function createUser(userDetails, done) {
-  new User(userDetails)
+passport.use(
+  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    CustomLogin.findOne({ email })
+      .then((user) => {
+        if (!user) {
+          return createUser(
+            "CustomLogin",
+            {
+              email,
+              password: bcryptjs.hashSync(password, salt),
+            },
+            done
+          );
+        }
+        console.log("user already exists");
+
+        if (!bcryptjs.compareSync(password, user.password)) {
+          return done(null, false, { message: "Incorrect password" });
+        }
+        done(null, user);
+      })
+      .catch((err) => done(err));
+  })
+);
+
+function createUser(type, userDetails, done) {
+  // calls either "OAuthLogin" or "CustomLogin" at runtime
+
+  new UserModel[type](userDetails)
     .save()
     .then((user) => {
-      console.log("New user is created...", user);
+      console.log(`New user is created using ${type}...`, user);
       done(null, user);
     })
     .catch((err) => console.log(err));
