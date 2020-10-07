@@ -9,7 +9,9 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => afterConnection())
-  .catch((err) => console.error("Cannot connect to MongoDB"));
+  .catch((err) =>
+    console.error("Cannot connect to MongoDB, app is not listening")
+  );
 
 function afterConnection() {
   console.log("Connected to MongoDB");

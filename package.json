@@ -1,37 +1,24 @@
 {
-  "name": "PlayBook",
-  "version": "0.2.0",
-  "description": "A video sharing platform",
-  "main": "db.js",
+  "name": "playbook",
+  "version": "0.1.0",
+  "description": "A video browsing platform",
+  "main": "server/db.js",
   "scripts": {
     "client-install": "cd client && npm install",
-    "start": "node db.js",
-    "server": "nodemon db.js",
+    "start": "cd server && npm start",
+    "server": "cd server && npm run server",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "post-build": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "Rahul Dahal",
-  "license": "unlicensed",
-  "devDependencies": {
-    "jest": "^26.4.2",
-    "nodemon": "^1.14.6",
-    "supertest": "^5.0.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahuldahal/playbook.git"
   },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "concurrently": "^3.5.1",
-    "connect-flash": "^0.1.1",
-    "connect-mongo": "^3.2.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.1",
-    "helmet": "^4.1.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.7",
-    "passport": "^0.4.1",
-    "passport-facebook": "^3.0.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
-  }
+  "author": "Rahul Dahal",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/rahuldahal/playbook/issues"
+  },
+  "homepage": "https://github.com/rahuldahal/playbook#readme"
 }
