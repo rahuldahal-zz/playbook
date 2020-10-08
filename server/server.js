@@ -3,17 +3,16 @@ const passport = require("passport");
 const helmet = require("helmet");
 const passportController = require("./controllers/passportController");
 const dotenv = require("dotenv");
-dotenv.config();
 const path = require("path");
+dotenv.config();
 
 const app = express();
 
 app.use(helmet());
 app.use(express.json());
 
-// initialize passportJS and use express-session
+// initialize passportJS !important
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.get("/", (req, res) =>
   res.status(200).json({ message: "The server is working..." })

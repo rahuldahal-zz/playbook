@@ -107,26 +107,32 @@ passport.use(
 
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    CustomLogin.findOne({ email })
-      .then((user) => {
-        if (!user) {
-          return createUser(
-            "CustomLogin",
-            {
-              email,
-              password: bcryptjs.hashSync(password, salt),
-            },
-            done
-          );
-        }
-        console.log("user already exists");
+    const isEmailValid =
+      CustomLogin.isEmailValid(email) &&
+      CustomLogin.findOne({ email })
+        .then((user) => {
+          if (!user) {
+            return createUser(
+              "CustomLogin",
+              {
+                email,
+                password: bcryptjs.hashSync(password, salt),
+              },
+              done
+            );
+          }
+          console.log("user already exists");
 
-        if (!bcryptjs.compareSync(password, user.password)) {
-          return done(null, false, { message: "Incorrect password" });
-        }
-        done(null, user);
-      })
-      .catch((err) => done(err));
+          if (!bcryptjs.compareSync(password, user.password)) {
+            return done(null, false, { message: "Incorrect password" });
+          }
+          done(null, user);
+        })
+        .catch((err) => done(err));
+
+    if (!isEmailValid) {
+      return done(null, false, { message: "Invalid email received" });
+    }
   })
 );
 

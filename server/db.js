@@ -21,7 +21,7 @@ function afterConnection() {
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 * 24, httpOnly: true },
+    cookie: { maxAge: 1000 * 60 * 15, httpOnly: true },
   };
 
   app.use(session(sessionOptions));

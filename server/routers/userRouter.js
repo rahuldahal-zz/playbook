@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const userController = require("../controllers/userController");
+const { mustHaveToken, grantAccess } = require("../controllers/userController");
 
-router.get("/create-profile", userController.mustBeLoggedIn);
+router.get("/protected", mustHaveToken, grantAccess);
 
 module.exports = router;

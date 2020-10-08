@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const validator = require("validator");
 
 const userSchema = new Schema(
   {
@@ -7,6 +8,14 @@ const userSchema = new Schema(
   },
   { discriminatorKey: "loginType" }
 );
+
+userSchema.statics.isEmailValid = function (enteredEmail) {
+  return validator.isEmail(enteredEmail);
+};
+
+userSchema.statics.toObjectId = function (string) {
+  return mongoose.Types.ObjectId(string);
+};
 
 const User = mongoose.model("user", userSchema);
 
