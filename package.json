@@ -8,7 +8,7 @@
     "start": "cd server && npm start",
     "server": "cd server && npm run server",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "cd server && concurrently \"npm run server\" \"npm run client\"",
     "post-build": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/rahuldahal/playbook/issues"
   },
-  "homepage": "https://github.com/rahuldahal/playbook#readme"
+  "homepage": "https://github.com/rahuldahal/playbook#readme",
+  "dependencies": {}
 }
