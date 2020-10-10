@@ -31,20 +31,23 @@ exports.createProfile = (req, res) => {
     companyIndustry,
     productType,
     areasOfStruggle,
+    annualRevenue,
   } = req.body);
 
   const user = new User();
 
   user
     .isCreateProfileDataValid(data)
-    .then((res) => res.send(res))
-    .catch((err) => res.send(err));
+    .then(() => updateUserProfile(req, res, data))
+    .catch((err) => res.status(400).send(err));
+};
 
+function updateUserProfile(req, res, data) {
   User.findOneAndUpdate({ _id: req.userId }, data, {
     returnOriginal: false,
     useFindAndModify: false,
   })
     .select("-password")
     .then((user) => res.status(201).json(user))
-    .catch((err) => res.status(500).json({ err }));
-};
+    .catch((err) => res.status(500));
+}

@@ -33,24 +33,34 @@ userSchema.statics.toObjectId = function (string) {
   return mongoose.Types.ObjectId(string);
 };
 
-// work on doing "strict" validations...
-
 userSchema.methods.isCreateProfileDataValid = function (data) {
   return new Promise((resolve, reject) => {
     const errors = [];
     for (const key in data) {
-      if (!key || typeof data[key] !== "string") {
+      if (
+        !data[key] ||
+        (key !== "areasOfStruggle" && typeof data[key] !== "string")
+      ) {
         errors.push(`${key} is not valid`);
       }
+
+      // check for valid areas, use emum...
+
+      if (key === "areasOfStruggle") {
+        const nonStringAreas = data[key].filter(
+          (area) => typeof area !== "string"
+        );
+        errors.push(...nonStringAreas);
+      }
     }
-    if (errors) {
+    if (errors.length) {
       return reject(errors);
     }
-    resolve();
+    return resolve("Successfully validated. Nothing bogus with the data.");
   });
 };
 
-// crating the User model
+// creating the User model
 const User = mongoose.model("user", userSchema);
 
 const OAuthLogin = User.discriminator(
