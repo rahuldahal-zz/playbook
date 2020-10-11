@@ -12,17 +12,32 @@ exports.mustHaveToken = (req, res, next) => {
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.userId = User.toObjectId(decoded.userId);
-      next();
+      return next();
     } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized, token failed");
+      return res
+        .status(401)
+        .json({ message: "Authorization token is not valid..." });
     }
   }
 
   if (!token) {
-    res.status(401);
-    throw new Error("Not authorized, no token");
+    return res
+      .status(401)
+      .json({ message: "Authorization token is not present..." });
   }
+};
+
+exports.mustBeAdmin = (req, res, next) => {
+  User.findById(req.userId)
+    .then((user) => {
+      if (user && user.isAdmin) {
+        return next();
+      }
+      return res
+        .status(401)
+        .json({ message: "Administrator authorization needed..." });
+    })
+    .catch((err) => next(err));
 };
 
 exports.createProfile = (req, res) => {
@@ -38,12 +53,28 @@ exports.createProfile = (req, res) => {
 
   user
     .isCreateProfileDataValid(data)
-    .then(() => updateUserProfile(req, res, data))
+    .then(() => updateUserProfile({ _id: req.userId }, data, res))
     .catch((err) => res.status(400).send(err));
 };
 
-function updateUserProfile(req, res, data) {
-  User.findOneAndUpdate({ _id: req.userId }, data, {
+exports.makeAdmin = (req, res) => {
+  const userId = req.body.userId;
+  if (!userId || !User.isObjectId(userId)) {
+    return res.status(400).send("invalid user ID provided");
+  }
+  return updateUserProfile({ _id: userId }, { isAdmin: true }, res);
+};
+
+exports.removeAdmin = (req, res) => {
+  const userId = req.body.userId;
+  if (!userId || !User.isObjectId(userId)) {
+    return res.status(400).send("invalid user ID provided");
+  }
+  return updateUserProfile({ _id: userId }, { isAdmin: false }, res);
+};
+
+function updateUserProfile(filter, data, res) {
+  User.findOneAndUpdate(filter, data, {
     returnOriginal: false,
     useFindAndModify: false,
   })

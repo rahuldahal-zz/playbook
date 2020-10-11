@@ -21,12 +21,20 @@ const userSchema = new Schema(
     annualRevenue: {
       type: String,
     },
+    isAdmin: { type: Boolean, default: false },
   },
   { discriminatorKey: "loginType" }
 );
 
 userSchema.statics.isEmailValid = function (enteredEmail) {
   return validator.isEmail(enteredEmail);
+};
+
+userSchema.statics.isObjectId = function (string) {
+  if (!string || typeof string !== "string") {
+    return false;
+  }
+  return validator.isMongoId(string);
 };
 
 userSchema.statics.toObjectId = function (string) {

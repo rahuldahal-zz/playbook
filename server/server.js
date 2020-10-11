@@ -19,6 +19,7 @@ app.get("/", (req, res) =>
 );
 app.use("/api/auth", require("./routers/authRouter"));
 app.use("/api/user", require("./routers/userRouter"));
+app.use("/api/admin", require("./routers/adminRouter"));
 
 // serve the build>index.html in production
 

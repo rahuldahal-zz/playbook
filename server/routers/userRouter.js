@@ -4,6 +4,6 @@ const {
   createProfile,
 } = require("../controllers/userController");
 
-router.post("/create-profile", mustHaveToken, createProfile);
+router.put("/create-profile", mustHaveToken, createProfile);
 
 module.exports = router;
