@@ -57,6 +57,12 @@ exports.createProfile = (req, res) => {
     .catch((err) => res.status(400).send(err));
 };
 
+exports.getAll = (req, res) => {
+  User.find({})
+    .then((users) => res.status(200).json(users))
+    .catch((err) => res.status(500).json({ error: err }));
+};
+
 exports.makeAdmin = (req, res) => {
   const userId = req.body.userId;
   if (!userId || !User.isObjectId(userId)) {

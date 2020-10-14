@@ -14,6 +14,10 @@ const courseSchema = new Schema({
   tags: Array,
 });
 
+courseSchema.methods.logThis = function () {
+  console.log(this);
+};
+
 const Course = mongoose.model("Course", courseSchema);
 
 module.exports = Course;
