@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const validator = require("validator");
+const Course = require("./Course");
 
 const userSchema = new Schema(
   {
@@ -22,6 +23,7 @@ const userSchema = new Schema(
       type: String,
     },
     isAdmin: { type: Boolean, default: false },
+    associatedCourses: [{ type: Schema.Types.ObjectId, ref: Course }],
   },
   { discriminatorKey: "loginType" }
 );

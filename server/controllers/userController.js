@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/User");
+const Course = require("../models/Course");
 
 exports.mustHaveToken = (req, res, next) => {
   let token;
@@ -53,7 +54,16 @@ exports.createProfile = (req, res) => {
 
   user
     .isCreateProfileDataValid(data)
-    .then(() => updateUserProfile({ _id: req.userId }, data, res))
+    .then(() => {
+      // find and send associatedCourses to User model.
+      Course.find({ tags: { $in: data.areasOfStruggle } })
+        .then((courses) => {
+          courses = courses ? courses.map((course) => course._id) : null;
+          data.associatedCourses = courses;
+          return updateUserProfile({ _id: req.userId }, data, res);
+        })
+        .catch((err) => res.status(500).json({ error: err }));
+    })
     .catch((err) => res.status(400).send(err));
 };
 
