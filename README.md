@@ -1,3 +1,6 @@
+![GPL-3 License](https://img.shields.io/github/license/rahuldahal/playbook)
+![Top-language used](https://img.shields.io/github/languages/top/rahuldahal/playbook)
+
 # PlayBook Academy
 
 A video browsing platform
